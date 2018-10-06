@@ -1,0 +1,15 @@
+{
+    "constants": {
+        "B": 500,
+        "A": 90
+    },
+    "variables": {
+        "x": 0,
+        "y": 0
+    },
+    "statements": [
+        "x equals B * A",
+        "y equals B / A"
+    ],
+    "events": {}
+}

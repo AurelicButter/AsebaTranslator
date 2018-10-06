@@ -1,0 +1,25 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+
+
+<!--list of constants-->
+<constant value="500" name="B"/>
+<constant value="90" name="A"/>
+
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="1" name="thymio-II">var x = 0
+var y = 0
+x = B * A
+y = B / A
+</node>
+
+
+</network>

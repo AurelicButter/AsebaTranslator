@@ -1,0 +1,25 @@
+{
+    "constants": {
+        "NAME": "value"
+    },
+    "variables": {
+        "NAME": "value"
+    },
+    "events": { 
+        "NAME": {
+            "ACTION NAME": {
+                "CONDITION": "STATEMENT",
+                "ACTION NAME": "ACTION"
+            },
+            "ACTION Name": [
+                "STATEMENT",
+                "STATEMENT"
+            ],
+            "action NAME": { "ACTION NAME": "ACTION" }
+        }
+    },
+    "statements": [ 
+        "STATEMENT",
+        "STATEMENT"
+    ]
+}
