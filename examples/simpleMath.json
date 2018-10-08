@@ -8,8 +8,8 @@
         "y": 0
     },
     "statements": [
-        "x equals B * A",
-        "y equals B / A"
+        "x equals B multiply by A",
+        "y equals B divided by A"
     ],
     "events": {}
 }

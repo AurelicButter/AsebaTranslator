@@ -1,5 +1,5 @@
 import sys
-import fileGenerate
+from lib.fileGenerate import initFile
 import json #For initial reading of the JSON file
 
 fileLocation = input("Enter file location: ")
@@ -12,5 +12,5 @@ try:
 except FileNotFoundError:
     sys.exit("Error: " + fileLocation + " is not found.") #File not found
 
-convertFile = fileGenerate.initFile(open(fileLocation[0:-4] + "aesl", "w"))
+convertFile = initFile(open(fileLocation[0:-4] + "aesl", "w"))
 convertFile.setUp(json.loads(open(fileLocation).read())) #Init and translate AESL file
