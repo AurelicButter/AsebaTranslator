@@ -4,23 +4,33 @@ class initFile(object):
         self.fileStream = fileStream
     def emptyLine(self, amount):
         #Adds an empty line based on the amount
-        self.amount = amount
         for x in range(amount):
             self.fileStream.write("\n")    
     def writeln(self, item):
         #Writes a line of a file and moves to a new line
-        self.item = item
         self.fileStream.write(item + "\n")
     def constants(self, items): #Writes constants to the AESL file
         self.writeln("<!--list of constants-->")
         for key in items:
             self.writeln('<constant value="{}" name="{}"/>'.format(items[key], key))
-        self.emptyLine(2)
+        self.writeln("\n")
     def variables(self, items): #Writes all variables to the AESL file. Will be located on the top.
-        self.writeln("<!--node thymio-II-->")
-        self.fileStream.write('<node nodeId="1" name="thymio-II">')
+        self.fileStream.write('<!--node thymio-II-->\n<node nodeId="1" name="thymio-II">')
         for key in items:
-            self.writeln("var {} = {}".format(key, items[key]))
+            if (type(items[key]) == list): #Sets up the array name
+                value1 = "%s[%d]" % (key, len(items[key]))
+            else:
+                value1 = key
+            
+            if (items[key] == None): #Null values. Variables won't have an assigned value
+                value2 = ""
+            elif (type(items[key]) != list and items[key].startswith("nullArray")): #Creates an empty array essentially. All values are 0
+                initArray = [0] * int(float(items[key][10:-1]))
+                value1 = "%s[%d]" % (key, len(initArray))
+                value2 = "= {}".format(initArray)
+            else:
+                value2 = "= {}".format(items[key])
+            self.writeln("var {} {}".format(value1, value2))
     def events(self, items): #Sets up events
         for key in items:
             data = items[key]
@@ -48,8 +58,7 @@ class initFile(object):
     def setUp(self, file):
         self.file = file
         #Sets up basic AESL file for translation
-        self.writeln("<!DOCTYPE aesl-source>")
-        self.writeln("<network>\n\n")
+        self.writeln("<!DOCTYPE aesl-source>\n<network>\n")
         self.writeln("<!--list of global events-->")
         self.emptyLine(2)
         self.constants(file["constants"])
@@ -59,5 +68,4 @@ class initFile(object):
         self.variables(file["variables"])
         self.events(file["events"])
         self.statements(file["statements"])
-        self.writeln("</node>")
-        self.writeln("\n\n</network>")
+        self.writeln("</node>\n\n</network>")
