@@ -13,4 +13,4 @@ except FileNotFoundError:
     sys.exit("Error: " + fileLocation + " is not found.") #File not found
 
 convertFile = initFile(open(fileLocation[0:-4] + "aesl", "w"))
-convertFile.setUp(json.loads(open(fileLocation).read())) #Init and translate AESL file
+convertFile.setUp(json.loads(open(fileLocation).read()), fileLocation[0:-4] + "aesl") #Init and translate AESL file

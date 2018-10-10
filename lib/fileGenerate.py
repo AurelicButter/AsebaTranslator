@@ -1,4 +1,5 @@
 from lib.changeString import change
+from os import remove
 
 class initFile(object):
     def __init__(self, fileStream): #Assigns the filestream to the class
@@ -56,17 +57,24 @@ class initFile(object):
     def statements(self, items):
         for x in range(len(items)):
             self.writeln("{}".format(change(items[x], False)))          
-    def setUp(self, file):
-        self.file = file
-        self.writeln("<!DOCTYPE aesl-source>\n<network>\n") #Sets up basic AESL file for translation
-        self.writeln("\n<!--list of global events-->")
-        self.writeln("\n")
-        self.constants(file["constants"]) #Sets up all constants
-        self.writeln("<!--show keywords state-->")
-        self.writeln('<keywords flag="true"/>')
-        self.writeln("\n")
-        self.variables(file["variables"]) #Sets up all variables
-        self.events(file["events"]) #Sets up all events
-        self.statements(file["statements"]) #Sets up all statements
-        self.writeln("</node>\n")
-        self.writeln("\n</network>")
+    def setUp(self, file, AESLPATH):
+        try:
+            self.writeln("<!DOCTYPE aesl-source>\n<network>\n") #Sets up basic AESL file for translation
+            self.writeln("\n<!--list of global events-->")
+            self.writeln("\n")
+            self.constants(file["constants"]) #Sets up all constants
+            self.writeln("<!--show keywords state-->")
+            self.writeln('<keywords flag="true"/>')
+            self.writeln("\n")
+            self.variables(file["variables"]) #Sets up all variables
+            self.events(file["events"]) #Sets up all events
+            self.statements(file["statements"]) #Sets up all statements
+            self.writeln("</node>\n")
+            self.writeln("\n</network>")
+            print("File translation completed.")
+        except: #If there is any issue with the JSON file. Notify and close program.
+            print("\n####################################################################################################")
+            print("Error within the JSON file. Please review that all fields are present and the JSON format is correct")
+            print("####################################################################################################\n")
+            self.fileStream.close()
+            remove(AESLPATH)
