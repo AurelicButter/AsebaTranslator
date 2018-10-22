@@ -1,5 +1,4 @@
 from lib.changeString import change
-from os import remove
 
 class initFile(object):
     def __init__(self, fileStream): #Assigns the filestream to the class
@@ -21,17 +20,19 @@ class initFile(object):
             
             if (items[key] == None): #Null values. Variables won't have an assigned value
                 value2 = ""
-            elif (type(items[key]) != list and type(items[key]) != int and items[key].startswith("fillArray")): #Fills an array with a value
-                value3 = items[key][10:-1].split("][") #Turns the two numbers into their own values
-                initArray = [int(float(value3[1]))] * int(float(value3[0]))
-                value1 = ("%s[%d]" % (key, len(initArray)))
-                value2 = "= {}".format(initArray)
-            elif (type(items[key]) != list and type(items[key]) != int and items[key].startswith("nullArray")): #Creates an empty array essentially. All values are 0
-                initArray = [0] * int(float(items[key][10:-1]))
-                value1 = "%s[%d]" % (key, len(initArray))
-                value2 = "= {}".format(initArray)
+            elif (type(items[key]) != list and type(items[key]) != int):
+                if (items[key].startswith("fillArray")): #Fills an array with a value
+                    value3 = items[key][10:-1].split("][") #Turns the two numbers into their own values
+                    initArray = [int(float(value3[1]))] * int(float(value3[0]))
+                    value1 = ("%s[%d]" % (key, len(initArray)))
+                    value2 = "= {}".format(initArray)
+                elif (items[key].startswith("nullArray")): #Creates an empty array essentially. All values are 0
+                    initArray = [0] * int(float(items[key][10:-1]))
+                    value1 = "%s[%d]" % (key, len(initArray))
+                    value2 = "= {}".format(initArray)
             else:
-                value2 = "= {}".format(items[key])
+                value1 = value1 + " = {}".format(items[key])
+                value2 = ""
             self.writeln("var {} {}".format(value1, value2))
     def events(self, items): #Sets up events
         for key in items:
@@ -58,23 +59,16 @@ class initFile(object):
         for x in range(len(items)):
             self.writeln("{}".format(change(items[x], False)))          
     def setUp(self, file, AESLPATH):
-        try:
-            self.writeln("<!DOCTYPE aesl-source>\n<network>\n") #Sets up basic AESL file for translation
-            self.writeln("\n<!--list of global events-->")
-            self.writeln("\n")
-            self.constants(file["constants"]) #Sets up all constants
-            self.writeln("<!--show keywords state-->")
-            self.writeln('<keywords flag="true"/>')
-            self.writeln("\n")
-            self.variables(file["variables"]) #Sets up all variables
-            self.events(file["events"]) #Sets up all events
-            self.statements(file["statements"]) #Sets up all statements
-            self.writeln("</node>\n")
-            self.writeln("\n</network>")
-            print("File translation completed.")
-        except: #If there is any issue with the JSON file. Notify and close program.
-            print("\n####################################################################################################")
-            print("Error within the JSON file. Please review that all fields are present and the JSON format is correct")
-            print("####################################################################################################\n")
-            self.fileStream.close()
-            remove(AESLPATH)
+        self.writeln("<!DOCTYPE aesl-source>\n<network>\n") #Sets up basic AESL file for translation
+        self.writeln("\n<!--list of global events-->")
+        self.writeln("\n")
+        self.constants(file["constants"]) #Sets up all constants
+        self.writeln("<!--show keywords state-->")
+        self.writeln('<keywords flag="true"/>')
+        self.writeln("\n")
+        self.variables(file["variables"]) #Sets up all variables
+        self.events(file["events"]) #Sets up all events
+        self.statements(file["statements"]) #Sets up all statements
+        self.writeln("</node>\n")
+        self.writeln("\n</network>")
+        print("File translation completed.")

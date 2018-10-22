@@ -1,5 +1,7 @@
 import sys
+from os import remove
 from lib.fileGenerate import initFile
+from lib.JSONCheck import JSONCheck
 import json #For initial reading of the JSON file
 
 fileLocation = input("Enter file location: ")
@@ -12,5 +14,12 @@ try:
 except FileNotFoundError:
     sys.exit("Error: " + fileLocation + " is not found.") #File not found
 
-convertFile = initFile(open(fileLocation[0:-4] + "aesl", "w"))
-convertFile.setUp(json.loads(open(fileLocation).read()), fileLocation[0:-4] + "aesl") #Init and translate AESL file
+data = json.loads(open(fileLocation).read()) #JSON data
+AESLPATH = fileLocation[0:-4] + "aesl" #AESL file path
+
+result = JSONCheck(data) #Checks for missing JSON values.
+if (result == True): #If true, exit program. Error message is printed already.
+    sys.exit()
+
+convertFile = initFile(open(AESLPATH, "w")) #Inits the AESL file
+convertFile.setUp(data, AESLPATH) #Translate AESL file
