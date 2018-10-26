@@ -40,18 +40,20 @@ class initFile(object):
             self.writeln("onevent {}".format(key.replace("_", ".")))
 
             for event in data: #Checks for what is needed of the event
-                if ("condition" in data[event]): #If statements
-                    self.writeln("\tif {} {} then".format(event, change(data[event].get("condition"), True)))
-                    if (isinstance(data[event].get("action"), dict)): #Multiple actions check
-                        for x in range(len(data[event]) - 1):
-                            statements = data[event].get("action")
-                            for state in statements:
-                                self.writeln("\t\t{} {}".format(state, change(statements[state].get("action"), False)))
-                    else:
-                        self.writeln("\t\t{}".format(data[event].get("action")))   
-                    self.writeln("\tend")
-                elif (isinstance(data[event], list)): #Regular command calls
-                    self.writeln("\tcall {}".format(data[event][0]))
+                if (type(data[event]) == list):
+                    if (type(data[event][0]) == dict): #If statements
+                        item = data[event]
+                        for x in range(len(item)):
+                            self.writeln("\tif {} {} then".format(event, change(item[x].get("condition"), True)))
+                            if (type(item[x].get("action")) == dict): #Multiple actions for the condition.
+                                for y in item[x].get("action"):
+                                    self.writeln("\t\t{} {}".format(y, change(item[x].get("action")[y].get("action"), False)))
+                            else:
+                                self.writeln("\t\t{}".format(item[x].get("action")))  #Just one action for the condition.
+                            self.writeln("\tend")
+                    elif (type(data[event][0]) == str): #Other random statements within the event. 
+                        for x in range(len(data[event])):
+                            self.writeln("\t{}".format(data[event][x]))
                 else: #No conditional, just all actions
                     for x in range(len(data[event])):
                         self.writeln("\t{} {}".format(event, change(data[event].get("action"), False))) 
