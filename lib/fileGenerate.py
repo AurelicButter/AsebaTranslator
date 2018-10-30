@@ -14,26 +14,23 @@ class initFile(object):
         self.fileStream.write('<!--node thymio-II-->\n<node nodeId="1" name="thymio-II">')
         for key in items:
             if (type(items[key]) == list): #Sets up the array name
-                value1 = "%s[%d]" % (key, len(items[key]))
+                value = "%s[%d]" % (key, len(items[key]))
             else:
-                value1 = key
-            
-            if (items[key] == None): #Null values. Variables won't have an assigned value
-                value2 = ""
-            elif (type(items[key]) != list and type(items[key]) != int):
-                if (items[key].startswith("fillArray")): #Fills an array with a value
-                    value3 = items[key][10:-1].split("][") #Turns the two numbers into their own values
-                    initArray = [int(float(value3[1]))] * int(float(value3[0]))
-                    value1 = ("%s[%d]" % (key, len(initArray)))
-                    value2 = "= {}".format(initArray)
-                elif (items[key].startswith("nullArray")): #Creates an empty array essentially. All values are 0
-                    initArray = [0] * int(float(items[key][10:-1]))
-                    value1 = "%s[%d]" % (key, len(initArray))
-                    value2 = "= {}".format(initArray)
-            else:
-                value1 = value1 + " = {}".format(items[key])
-                value2 = ""
-            self.writeln("var {} {}".format(value1, value2))
+                value = key
+
+            if (items[key] != None): #None values don't need any more addition items added to the value variable.
+                if (type(items[key]) != list and type(items[key]) != int):
+                    if (items[key].startswith("fillArray")): #Fills an array with a value
+                        value3 = items[key][10:-1].split("][") #Turns the two numbers into their own values
+                        initArray = [int(float(value3[1]))] * int(float(value3[0]))
+                        value= ("%s[%d]" % (key, len(initArray))) +  " = {}".format(initArray)
+                    elif (items[key].startswith("nullArray")): #Creates an empty array essentially. All values are 0
+                        initArray = [0] * int(float(items[key][10:-1]))
+                        value = "%s[%d]" % (key, len(initArray)) + " = {}".format(initArray)
+                else:
+                    value += " = {}".format(items[key])
+
+            self.writeln("var {}".format(value))
     def events(self, items): #Sets up events
         for key in items:
             data = items[key]

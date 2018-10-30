@@ -1,4 +1,4 @@
-#Checks if all values are in the JSON file.s
+#Checks if all values are in the JSON file.
 def JSONCheck(data):
     check = False
     try:
@@ -24,6 +24,12 @@ def JSONCheck(data):
     except:
         JSONQuit("Statements")
         check = True
+        
+    try:
+        data["subs"]
+    except:
+        JSONQuit("Subs")
+        check = False
 
     return check    
 

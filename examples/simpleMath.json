@@ -11,5 +11,6 @@
         "x equals B multiply by A",
         "y equals B divided by A"
     ],
-    "events": {}
+    "events": { },
+    "subs": { }
 }
