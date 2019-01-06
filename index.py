@@ -1,24 +1,25 @@
 from sys import exit
-from lib.fileGenerate import initFile
-from lib.JSONCheck import JSONCheck
-import json #For initial reading of the JSON file
+from templateGen import menuLanding
+from lib.translateInit import init
 
-fileLocation = input("Enter file location: ")
+def menu():
+    print("####### AsebaTranslator v1.0 #######\n")
+    print("Enter the number next to the option you would like.")
+    print("1. Generate a template file")
+    print("2. Translate a JSON file")
+    print("0. Exit the program.")
+    print()
 
-if (fileLocation.startswith("C:") != True): #Easier if it's in root folder
-    fileLocation = "./" + fileLocation
+    option = int(input())
 
-try:
-    open(fileLocation, "r")
-except FileNotFoundError:
-    exit("Error: " + fileLocation + " is not found.") #File not found
+    if(option == 1):
+        menuLanding()
+    elif(option == 2):
+        init()
+    elif(option == 0):
+        exit()
+    else:
+        print("Option not found. Redirecting to the menu...\n")
+        menu()
 
-data = json.loads(open(fileLocation).read()) #JSON data
-
-result = JSONCheck(data) #Checks for missing JSON values.
-if (result == True): #If true, exit program. Error message is printed already.
-    exit()
-
-AESLPATH = fileLocation[0:-4] + "aesl" #AESL file path
-convertFile = initFile(open(AESLPATH, "w")) #Inits the AESL file
-convertFile.setUp(data, AESLPATH) #Translate AESL file
+menu()
