@@ -1,6 +1,6 @@
 from sys import exit
 from json import loads
-from lib.fileGenerate import initFile
+from lib.fileGenerate import generate
 
 def init():
     fileLocation = input("Enter file location: ")
@@ -18,8 +18,7 @@ def init():
     option = check(data) #Checks the file for anything missing
 
     AESLPATH = fileLocation[0:-4] + "aesl" #AESL file path
-    convertFile = initFile(open(AESLPATH, "w")) #Inits the AESL file
-    convertFile.setUp(data, AESLPATH, option) #Translate AESL file
+    generate(open(AESLPATH, "w"), data, option) #Initializes and translates the AESL file
 
 def check(data):
     options = { "constants": True, "variables": True, "events": True, "statements": True, "subs": True }

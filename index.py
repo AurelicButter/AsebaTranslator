@@ -1,6 +1,6 @@
 from sys import exit
 from templateGen import menuLanding
-from lib.translateInit import init
+from lib.translate import init
 
 def menu():
     print("####### AsebaTranslator v1.0 #######\n")
