@@ -23,9 +23,16 @@
         "STATEMENT"
     ],
     "subs": {
-        "eventName": [
-            "STATEMENT",
-            "STATEMENT"
-        ]
+        "eventName": {
+            "ACTION NAME": {
+                "CONDITION": "STATEMENT",
+                "ACTION NAME": "ACTION"
+            },
+            "ACTION Name": [
+                "STATEMENT",
+                "STATEMENT"
+            ],
+            "action NAME": { "ACTION NAME": "ACTION" }
+        }
     }
 }

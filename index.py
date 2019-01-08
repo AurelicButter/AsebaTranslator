@@ -1,5 +1,5 @@
 from sys import exit
-from templateGen import menuLanding
+from lib.templateGen import menuLanding
 from lib.translate import init
 
 def menu():
@@ -7,15 +7,16 @@ def menu():
     print("Enter the number next to the option you would like.")
     print("1. Generate a template file")
     print("2. Translate a JSON file")
-    print("0. Exit the program.")
-    print()
+    print("0. Exit the program.\n")
 
     option = int(input())
 
     if(option == 1):
         menuLanding()
+        menu()
     elif(option == 2):
         init()
+        menu()
     elif(option == 0):
         exit()
     else:

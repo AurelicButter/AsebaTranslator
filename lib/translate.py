@@ -8,6 +8,9 @@ def init():
     if (fileLocation.startswith("C:") != True): #Easier if it's in root folder
         fileLocation = "./" + fileLocation
 
+    if (fileLocation.endswith(".json") != True): #Add a .json to the end of the path if one is not provided
+        fileLocation = fileLocation + ".json"
+
     try: #Verifies the file location, if doesn't exist, exit with a message.
         open(fileLocation, "r")
     except FileNotFoundError:

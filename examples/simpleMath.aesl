@@ -9,7 +9,6 @@
 <constant value="500" name="B"/>
 <constant value="90" name="A"/>
 
-
 <!--show keywords state-->
 <keywords flag="true"/>
 

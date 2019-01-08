@@ -3,7 +3,7 @@ from lib.changeString import change
 def constant(items): #Generates the constants part of the AESL file
     text = "<!--list of constants-->\n"
     for key in items:
-        text = text + '<constant value="{}" name"{}"/>\n'.format(items[key], key)
+        text = text + '<constant value="{}" name="{}"/>\n'.format(items[key], key)
     return text + "\n"
 
 def variable(items): #Generates the variable part of the AESL file.
@@ -57,4 +57,26 @@ def event(items):
 
 def sub(items):
     text = ""
+    for key in items:
+        data = items[key]
+        text = text + "sub " + key + "\n"
+
+        for event in data: #Checks for what is needed of the event
+            if (type(data[event]) == list):
+                if (type(data[event][0]) == dict): #If statements
+                    item = data[event]
+                    for x in range(len(item)):
+                        text = text + "\tif {} {} then\n".format(event, change(item[x].get("condition"), True))
+                        if (type(item[x].get("action")) == dict): #Multiple actions for the condition.
+                            for y in item[x].get("action"):
+                                text = text + "\t\t{} {}\n".format(y, change(item[x].get("action")[y].get("action"), False))
+                        else:
+                            text = text + "\t\t{}\n".format(item[x].get("action"))  #Just one action for the condition.
+                        text = text + "\tend"
+                elif (type(data[event][0]) == str): #Other random statements within the event. 
+                    for x in range(len(data[event])):
+                        text = text + "\t{}\n".format(data[event][x])
+            else: #No conditional, just all actions
+                for x in range(len(data[event])):
+                    text = text + "\t{} {}\n".format(event, change(data[event].get("action"), False))
     return text

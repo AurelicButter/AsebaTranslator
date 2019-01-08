@@ -17,6 +17,9 @@ def generate(fileStream, file, options):
     if (options["variables"] == True): #Sets up the variables
         fileStream.write(genLib.variable(file["variables"]))
 
+    if (options["subs"] == True): #Sets up the subroutines
+        fileStream.write(genLib.sub(file["subs"]))
+
     if (options["events"] == True): #Sets up the events
         fileStream.write(genLib.event(file["events"]))
 
@@ -25,5 +28,4 @@ def generate(fileStream, file, options):
 
     fileStream.write("</node>\n\n\n</network>")
 
-    print("File translation completed.\nPress any key to exit...\n")
-    input()
+    print("\nFile translation completed.\n")
