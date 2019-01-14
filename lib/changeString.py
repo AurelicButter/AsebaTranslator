@@ -2,7 +2,7 @@
 #Includes a variable for if the text is for a conditional for "==" instead of "="
 
 def change(text, condition):
-    text = text.replace("greater than and equals", ">=").replace("less than and equals", "&lt;=")
+    text = text.replace("greater than or equals", ">=").replace("less than or equals", "&lt;=")
     text = text.replace("greater than", ">").replace("less than", "&lt;")
     text = text.replace("not equal to", "!=")
 

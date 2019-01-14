@@ -1,21 +1,21 @@
 {
     "constants": {
-        "NAME": "value"
+        "NAME": 0
     },
     "variables": {
         "NAME": "value"
     },
     "events": { 
         "NAME": {
-            "ACTION NAME": {
-                "CONDITION": "STATEMENT",
-                "ACTION NAME": "ACTION"
+            "name": {
+                "condition": "STATEMENT",
+                "action": "ACTION"
             },
-            "ACTION Name": [
+            "Name": [
                 "STATEMENT",
                 "STATEMENT"
             ],
-            "action NAME": { "ACTION NAME": "ACTION" }
+            "NAME": "ACTION"
         }
     },
     "statements": [ 
@@ -25,14 +25,14 @@
     "subs": {
         "eventName": {
             "ACTION NAME": {
-                "CONDITION": "STATEMENT",
-                "ACTION NAME": "ACTION"
+                "condition": "STATEMENT",
+                "action": "ACTION"
             },
             "ACTION Name": [
                 "STATEMENT",
                 "STATEMENT"
             ],
-            "action NAME": { "ACTION NAME": "ACTION" }
+            "action NAME": "ACTION"
         }
     }
 }

@@ -3,7 +3,10 @@ from lib.changeString import change
 def constant(items): #Generates the constants part of the AESL file
     text = "<!--list of constants-->\n"
     for key in items:
-        text = text + '<constant value="{}" name="{}"/>\n'.format(items[key], key)
+        if (type(items[key]) == int):
+            text = text + '<constant value="{}" name="{}"/>\n'.format(items[key], key)
+        else:
+            return
     return text + "\n"
 
 def variable(items): #Generates the variable part of the AESL file.
@@ -34,49 +37,71 @@ def event(items):
     for key in items:
         data = items[key]
         text = text + "onevent {}\n".format(key.replace("_", "."))
-
         for event in data: #Checks for what is needed of the event
-            if (type(data[event]) == list):
-                if (type(data[event][0]) == dict): #If statements
-                    item = data[event]
-                    for x in range(len(item)):
-                        text = text + "\tif {} {} then\n".format(event, change(item[x].get("condition"), True))
-                        if (type(item[x].get("action")) == dict): #Multiple actions for the condition.
-                            for y in item[x].get("action"):
-                                text = text + "\t\t{} {}\n".format(y, change(item[x].get("action")[y].get("action"), False))
-                        else:
-                            text = text + "\t\t{}\n".format(item[x].get("action"))  #Just one action for the condition.
-                        text = text + "\tend"
-                elif (type(data[event][0]) == str): #Other random statements within the event. 
-                    for x in range(len(data[event])):
-                        text = text + "\t{}\n".format(data[event][x])
-            else: #No conditional, just all actions
+            if (type(data[event]) == dict): #If statements
+                text = text + "\tif {} {} then\n".format(key, change(data[event].get("condition"), True))
+
+                if (type(data[event].get("action")) == list): #Mutliple statements for the if statement
+                    for x in data[event].get("action"):
+                        text = text + "\t\t" + change(data[event].get("action")[x], False) + "\n"
+                elif (type(data[event].get("action")) == str): #Just one statement
+                    text = text + "\t\t" + change(data[event].get("action"), False) + "\n"
+                else:
+                    return
+
+                text = text + "\tend\n"
+            elif (type(data[event]) == list): #Plain statements or multiple if statements
                 for x in range(len(data[event])):
-                    text = text + "\t{} {}\n".format(event, change(data[event].get("action"), False))
+                    if (type(data[event][x]) == dict):
+                        text = text + "\tif " + event + " " + change(data[event][x].get("condition"), True) + " then\n"
+                        
+                        if (type(data[event][x].get("action")) == list): #Mutliple statements for the if statement
+                            for x in range(len(data[event][x].get("action"))):
+                                text = text + "\t\t" + change(data[event][x].get("action")[x], False) + "\n"
+                        elif (type(data[event][x].get("action")) == str): #Just one statement
+                            text = text + "\t\t" + change(data[event][x].get("action"), False) + "\n"
+                        else:
+                            return
+
+                        text = text + "\tend\n"
+                    elif (type(data[event][x]) == str):
+                        text = text + "\t" + change(data[event][x], False) + "\n"
+                    else:
+                        return
+            elif (type(data[event]) == str): #Variable value change or plain statement
+                if (event.startswith("other")): #Plain statement
+                    text = text + "\t" + change(data[event], False) + "\n"
+                else: #Variable change
+                    text = text + "\t{} {}\n".format(key, change(data[event], False))
+            else: 
+                return
     return text
 
 def sub(items):
     text = ""
-    for key in items:
-        data = items[key]
-        text = text + "sub " + key + "\n"
+    for eventName in items:
+        eventItem = items[eventName]
+        for key in eventItem:
+            data = eventItem[key]
+            text = text + "sub " + key + "\n"
 
-        for event in data: #Checks for what is needed of the event
-            if (type(data[event]) == list):
-                if (type(data[event][0]) == dict): #If statements
-                    item = data[event]
-                    for x in range(len(item)):
-                        text = text + "\tif {} {} then\n".format(event, change(item[x].get("condition"), True))
-                        if (type(item[x].get("action")) == dict): #Multiple actions for the condition.
-                            for y in item[x].get("action"):
-                                text = text + "\t\t{} {}\n".format(y, change(item[x].get("action")[y].get("action"), False))
-                        else:
-                            text = text + "\t\t{}\n".format(item[x].get("action"))  #Just one action for the condition.
-                        text = text + "\tend"
-                elif (type(data[event][0]) == str): #Other random statements within the event. 
-                    for x in range(len(data[event])):
-                        text = text + "\t{}\n".format(data[event][x])
-            else: #No conditional, just all actions
-                for x in range(len(data[event])):
-                    text = text + "\t{} {}\n".format(event, change(data[event].get("action"), False))
+            if (type(data) == dict): #If statements
+                text = text + "\tif {} {} then\n".format(key, change(data.get("condition"), True))
+
+                if (type(data.get("action")) == list): #Mutliple statements for the if statement
+                    for x in data.get("action"):
+                        text = text + "\t\t" + change(data.get("action")[x], False) + "\n"
+                elif (type(data.get("action")) == str): #Just one statement
+                    text = text + "\t\t" + change(data.get("action"), False) + "\n"
+                else:
+                    return
+
+                text = text + "\tend\n"
+            elif (type(data) == list): #Plain statements
+                for x in range(len(data)):
+                    text = text + "\t" + change(data[x], False) + "\n"
+            elif (type(data) == str): #Variable value change
+                text = text + "\t{} {}\n".format(key, change(data, False))
+            else: 
+                return
     return text

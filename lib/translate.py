@@ -21,6 +21,7 @@ def init():
     option = check(data) #Checks the file for anything missing
 
     AESLPATH = fileLocation[0:-4] + "aesl" #AESL file path
+    option["PATH"] = AESLPATH
     generate(open(AESLPATH, "w"), data, option) #Initializes and translates the AESL file
 
 def check(data):

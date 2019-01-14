@@ -1,5 +1,4 @@
 from sys import exit
-from lib.templateGen import menuLanding
 from lib.translate import init
 
 def menu():
@@ -11,16 +10,21 @@ def menu():
 
     option = int(input())
 
-    if(option == 1):
-        menuLanding()
-        menu()
+    if(option == 1): #Generates a blank JSON file for a new ASEL file translate.
+        fName = input("What should the file be called? ")
+        JSONTemplate = { "constants": { }, "variables": { }, "events": { }, "statements": [ ], "subs": { } }
+        JSONFile = open(fName + ".json", "w")
+
+        JSONFile.write(str(JSONTemplate).replace("'", '"'))
+        JSONFile.close()
+        print("\n" + fName + ".json has been successfully created.\n")
     elif(option == 2):
         init()
-        menu()
     elif(option == 0):
         exit()
     else:
         print("Option not found. Redirecting to the menu...\n")
-        menu()
+        
+    menu()
 
 menu()
