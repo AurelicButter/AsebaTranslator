@@ -13,7 +13,7 @@ def generate(fileStream, file, options):
         except:
             return errMsg("constants", fileStream, options["PATH"])
     else:
-        fileStream.write(genLib.constant({}))
+        fileStream.write(genLib.constant({}) + "\n")
 
     fileStream.write('<!--show keywords state-->\n<keywords flag="true"/>\n\n\n<!--node thymio-II-->\n<node nodeId="1" name="thymio-II">')
 
