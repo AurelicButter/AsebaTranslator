@@ -59,20 +59,15 @@ def event(items):
                         return
                     else:
                         text = text + item
-                elif (type(data[event]) == list): #Plain statements
+                elif (type(data[event]) == list): #List of statements
                     for x in range(len(data[event])):
                         if (type(data[event][x]) == dict):
-                            text = text + "\tif " + event + " " + change(data[event][x].get("condition"), True) + " then\n"
-                        
-                            if (type(data[event][x].get("action")) == list): #Mutliple statements for the if statement
-                                for x in range(len(data[event][x].get("action"))):
-                                    text = text + "\t\t" + change(data[event][x].get("action")[x], False) + "\n"
-                            elif (type(data[event][x].get("action")) == str): #Just one statement
-                                text = text + "\t\t" + change(data[event][x].get("action"), False) + "\n"
-                            else:
-                                return
+                            item = ifState(event, data[event][x])
 
-                            text = text + "\tend\n"
+                            if (item == False):
+                                return
+                            else:
+                                text = text + item
                         elif (type(data[event][x]) == str):
                             text = text + "\t" + change(data[event][x], False) + "\n"
                         else:

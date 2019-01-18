@@ -18,11 +18,11 @@ def menu():
         JSONFile.write(str(JSONTemplate).replace("'", '"'))
         JSONFile.close()
         print("\n" + fName + ".json has been successfully created.\n")
-    elif(option == 2):
+    elif(option == 2): #Translates a JSON file
         init()
-    elif(option == 0):
+    elif(option == 0): #Exits the program
         exit()
-    else:
+    else: #Catches any other items and re-loops the menu
         print("Option not found. Redirecting to the menu...\n")
         
     menu()
