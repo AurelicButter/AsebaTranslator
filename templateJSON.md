@@ -109,4 +109,4 @@ Statements are always a list of strings. Each string represents one line of Aseb
     ]
 }
 ```
-Subs (subroutines) perform exactly like events. See [Events](#events) for information. 
+Subs (subroutines) perform exactly like events, except for the name of the sub. The user can name the sub whatever they like as long as it is not a keyword for Aseba. See [Events](#events) for formatting information.
