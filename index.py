@@ -2,8 +2,8 @@ from sys import exit
 from lib.translate import init
 
 def menu():
-    print("####### AsebaTranslator v1.0 #######\n")
-    print("Created by and licenced by Yvain Hoekstra ©2019")
+    print("####### AsebaTranslator v1.0 #######")
+    print("Created by and licenced by Yvain Hoekstra ©2019\n")
     print("Enter the number next to the option you would like.")
     print("1. Generate a template file")
     print("2. Translate a JSON file")

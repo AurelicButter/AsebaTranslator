@@ -53,7 +53,7 @@ def event(items):
         if (type(data) == dict):
             for event in data: #Checks for what is needed of the event
                 if (type(data[event]) == dict): #If statements
-                    item = ifState(key, data[event])
+                    item = ifState(event, data[event])
 
                     if (item == False):
                         return
@@ -62,7 +62,7 @@ def event(items):
                 elif (type(data[event]) == list): #List of statements
                     for x in range(len(data[event])):
                         if (type(data[event][x]) == dict):
-                            item = ifState(event, data[event][x])
+                            item = ifState(event, data[event][x]) 
 
                             if (item == False):
                                 return
