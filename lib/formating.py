@@ -91,7 +91,7 @@ def sub(items):
     for eventName in items:
         for key in items[eventName]:
             data = items[eventName][key]
-            text = text + "sub " + key + "\n"
+            text = text + "sub " + eventName + "\n"
 
             if (type(data) == dict): #If statements
                 item = ifState(key, data)
