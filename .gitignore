@@ -1,1 +1,6 @@
 lib/__pycache__
+
+# PyInstaller Extras #
+__pycache__/
+build/
+index.spec
