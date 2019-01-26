@@ -1,0 +1,32 @@
+{
+    "constants": {
+        "THRESHOLD": 300
+    },
+    "variables": {
+        "min": null,
+        "max": null,
+        "mean": null
+    },
+    "events": { 
+        "prox": {
+            "other1": "call math.stat(prox.horizontal[0:4], min, max, mean)",
+            "max": [
+                {
+                    "condition": "greater than THRESHOLD",
+                    "action": [
+                        "motor.left.target equals 0",
+                        "motor.right.target equals 0"
+                    ]
+                },
+                {
+                    "condition": "less than THRESHOLD",
+                    "action": [
+                        "motor.left.target equals 1",
+                        "motor.right.target equals 1"
+                    ]
+                }
+            ]
+        }
+    },
+    "statements": [  ]
+}

@@ -1,0 +1,11 @@
+{
+    "variables": {
+        "inches": [500, 600, 700, 800, 900, 1000, 2000, 5000, 10000, 15000],
+        "centimeters": "nullArray[10]",
+        "A": "fillArray[10][254]",
+        "B": "fillArray[10][100]"
+    },
+    "statements": [ 
+        "call math.muldiv(centimeters, inches, A, B)"
+    ]
+}

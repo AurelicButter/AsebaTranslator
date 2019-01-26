@@ -1,0 +1,32 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+
+
+<!--list of constants-->
+<constant value="300" name="THRESHOLD"/>
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="1" name="thymio-II">var min
+var max
+var mean
+onevent prox
+	call math.stat(prox.horizontal[0:4], min, max, mean)
+	if max > THRESHOLD then
+		motor.left.target = 0
+		motor.right.target = 0
+	end
+	if max &lt; THRESHOLD then
+		motor.left.target = 1
+		motor.right.target = 1
+	end
+</node>
+
+
+</network>

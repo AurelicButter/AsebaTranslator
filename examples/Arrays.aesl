@@ -1,0 +1,24 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+
+
+<!--list of constants-->
+
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="1" name="thymio-II">var inches[10] = [500, 600, 700, 800, 900, 1000, 2000, 5000, 10000, 15000]
+var centimeters[10] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var A[10] = [254, 254, 254, 254, 254, 254, 254, 254, 254, 254]
+var B[10] = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+call math.muldiv(centimeters, inches, A, B)
+</node>
+
+
+</network>
